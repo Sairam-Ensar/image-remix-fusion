@@ -1,11 +1,23 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React from 'react';
+import Navigation from '@/components/Navigation';
+import AccountRequestForm from '@/components/AccountRequestForm';
 
 const Index = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-50">
+      <Navigation />
+      <div className="py-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center text-sm text-gray-500 mb-8">
+            <a href="/" className="hover:text-blue-600">Home</a>
+            <span className="mx-2">›</span>
+            <a href="/account" className="hover:text-blue-600">Account</a>
+            <span className="mx-2">›</span>
+            <span>Account Request</span>
+          </div>
+          <AccountRequestForm />
+        </div>
       </div>
     </div>
   );
