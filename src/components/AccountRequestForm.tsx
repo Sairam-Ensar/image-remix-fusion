@@ -1,11 +1,17 @@
 
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type FormData = {
   firstName: string;
@@ -26,7 +32,7 @@ type FormData = {
 };
 
 const AccountRequestForm = () => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
+  const { register, handleSubmit, watch, control, formState: { errors } } = useForm<FormData>();
 
   const onSubmit = (data: FormData) => {
     console.log(data);
@@ -143,12 +149,22 @@ const AccountRequestForm = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <Label htmlFor="state">State</Label>
-                <Select {...register("state")}>
-                  <option value="">Please select...</option>
-                  <option value="AL">Alabama</option>
-                  <option value="AK">Alaska</option>
-                  {/* Add all states */}
-                </Select>
+                <Controller
+                  control={control}
+                  name="state"
+                  render={({ field }) => (
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className={errors.state ? "border-red-500" : ""}>
+                        <SelectValue placeholder="Please select..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="AL">Alabama</SelectItem>
+                        <SelectItem value="AK">Alaska</SelectItem>
+                        {/* Add all states */}
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
               </div>
               <div>
                 <Label htmlFor="zipCode">Zip Code</Label>
@@ -158,15 +174,23 @@ const AccountRequestForm = () => {
 
             <div>
               <Label htmlFor="oemAffiliation">OEM Affiliation *</Label>
-              <Select
-                {...register("oemAffiliation", { required: true })}
-                className={errors.oemAffiliation ? "border-red-500" : ""}
-              >
-                <option value="">Please select...</option>
-                <option value="gilbarco">Gilbarco</option>
-                <option value="wayne">Wayne</option>
-                <option value="other">Other</option>
-              </Select>
+              <Controller
+                control={control}
+                name="oemAffiliation"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <SelectTrigger className={errors.oemAffiliation ? "border-red-500" : ""}>
+                      <SelectValue placeholder="Please select..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="gilbarco">Gilbarco</SelectItem>
+                      <SelectItem value="wayne">Wayne</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
 
             <div>
